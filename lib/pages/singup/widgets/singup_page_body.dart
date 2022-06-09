@@ -30,6 +30,7 @@ class _SingupPageBodyState extends State<SingupPageBody> {
   String email = '';
   String password = '';
   bool isLoading = false;
+  String? res;
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +100,35 @@ class _SingupPageBodyState extends State<SingupPageBody> {
                         child: SignInButton(
                           Buttons.Google,
                           onPressed: () async {
-                            await FirebaseAuthMethods(FirebaseAuth.instance)
-                                .signInWithGoogle(context);
+                            res =
+                                await FirebaseAuthMethods(FirebaseAuth.instance)
+                                    .signInWithGoogle(context);
+                            if (res == 'success') {
+                              ScaffoldMessenger.of(context)
+                                  .removeCurrentSnackBar();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text('Register Successfully!'),
+                              ));
+
+                              // final prefs =
+                              //     await SharedPreferences.getInstance();
+                              // prefs.setString('token', responseData['token']);
+                              // prefs.setInt('id', responseData['user']['id']);
+
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                NavigationHomePage.routeName,
+                                (route) => false,
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .removeCurrentSnackBar();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text('Failed to register!'),
+                              ));
+                            }
                           },
                         ),
                       ),

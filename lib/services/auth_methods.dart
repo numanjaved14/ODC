@@ -20,7 +20,9 @@ class FirebaseAuthMethods {
   Stream<User?> get authState => FirebaseAuth.instance.authStateChanges();
 
   // GOOGLE SIGN IN
-  Future<void> signInWithGoogle(BuildContext context) async {
+  Future<String> signInWithGoogle(BuildContext context) async {
+    String res = 'Error occured';
+
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -35,6 +37,7 @@ class FirebaseAuthMethods {
         );
         UserCredential userCredential =
             await _auth.signInWithCredential(credential);
+        print(userCredential.toString());
 
         // if you want to do specific task like storing information in firestore
         // only for new users using google sign in (since there are no two options
@@ -44,15 +47,17 @@ class FirebaseAuthMethods {
         // if (userCredential.user != null) {
         //   if (userCredential.additionalUserInfo!.isNewUser) {}
         // }
-
+        res = 'success';
       }
     } on FirebaseAuthException catch (e) {
       // showSnackBar(context, e.message!); // Displaying the error message
     }
+    return res;
   }
 
   // FACEBOOK SIGN IN
-  Future<void> signInWithFacebook(BuildContext context) async {
+  Future<String> signInWithFacebook(BuildContext context) async {
+    String res = 'Error occured';
     try {
       final LoginResult loginResult = await FacebookAuth.instance.login();
 
@@ -60,9 +65,12 @@ class FirebaseAuthMethods {
           FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
       await _auth.signInWithCredential(facebookAuthCredential);
+
+      res = 'success';
     } on FirebaseAuthException catch (e) {
       // showSnackBar(context, e.message!); // Displaying the error message
     }
+    return res;
   }
 
   // SIGN OUT
