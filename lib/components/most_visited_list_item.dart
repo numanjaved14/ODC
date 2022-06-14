@@ -8,12 +8,14 @@ class MostVisitedListItem extends StatelessWidget {
   final EstateListData? estateData;
   final VoidCallback? onTap;
   final String heroTag;
+  var snap;
 
-  const MostVisitedListItem({
+  MostVisitedListItem({
     Key? key,
     required this.estateData,
     required this.onTap,
     required this.heroTag,
+    this.snap,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class MostVisitedListItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        estateData!.perMonth.toString() + '\$ Per Month',
+                        snap.priceHtml!.toString(),
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -70,6 +72,7 @@ class MostVisitedListItem extends StatelessWidget {
               ),
             ),
             MostVisitedListItemCover(
+              snap: snap,
               title: estateData!.titleTxt,
               subTitle: estateData!.subTxt,
               imagePath: estateData!.imageUrl,

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate/pages/home/search_page.dart';
 
 import '/utils/constants.dart';
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({Key? key}) : super(key: key);
+class SearchBar extends StatefulWidget {
+  String text;
+  SearchBar({Key? key, this.text = 'Search...'}) : super(key: key);
 
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,10 +39,11 @@ class SearchBar extends StatelessWidget {
                       fontSize: 18,
                     ),
                     cursorColor: kPrimaryColor,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Search...',
+                      hintText: widget.text,
                     ),
+                    controller: _searchController,
                   ),
                 ),
               ),
@@ -46,6 +55,14 @@ class SearchBar extends StatelessWidget {
             ),
             onTap: () {
               FocusScope.of(context).unfocus();
+              if (_searchController.text.isNotEmpty) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        SearchScreen(get: _searchController.text),
+                  ),
+                );
+              }
             },
             child: const CircleAvatar(
               radius: 25,

@@ -68,6 +68,9 @@ class FirebaseAuthMethods {
 
       res = 'success';
     } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message.toString()),
+      ));
       // showSnackBar(context, e.message!); // Displaying the error message
     }
     return res;

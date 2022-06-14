@@ -93,7 +93,36 @@ class _SingupPageBodyState extends State<SingupPageBody> {
                     children: <Widget>[
                       SignInButton(
                         Buttons.Facebook,
-                        onPressed: () {},
+                        onPressed: () async {
+                          res = await FirebaseAuthMethods(FirebaseAuth.instance)
+                              .signInWithFacebook(context);
+                          if (res == 'success') {
+                            ScaffoldMessenger.of(context)
+                                .removeCurrentSnackBar();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('Register Successfully!'),
+                            ));
+
+                            // final prefs =
+                            //     await SharedPreferences.getInstance();
+                            // prefs.setString('token', responseData['token']);
+                            // prefs.setInt('id', responseData['user']['id']);
+
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              NavigationHomePage.routeName,
+                              (route) => false,
+                            );
+                          } else {
+                            // ScaffoldMessenger.of(context)
+                            //     .removeCurrentSnackBar();
+                            // ScaffoldMessenger.of(context)
+                            //     .showSnackBar(const SnackBar(
+                            //   content: Text('Failed to register!'),
+                            // ));
+                          }
+                        },
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 16),

@@ -7,13 +7,15 @@ class MostVisitedListItemCover extends StatelessWidget {
   final String? subTitle;
   final String imagePath;
   final String heroTag;
+  var snap;
 
-  const MostVisitedListItemCover({
+  MostVisitedListItemCover({
     Key? key,
     required this.title,
     this.subTitle,
     required this.imagePath,
     required this.heroTag,
+    this.snap,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -28,8 +30,8 @@ class MostVisitedListItemCover extends StatelessWidget {
             tag: heroTag,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                imagePath,
+              child: Image.network(
+                snap.imageThumb,
                 height: 180,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -43,7 +45,7 @@ class MostVisitedListItemCover extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  title,
+                  snap.name,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -52,7 +54,7 @@ class MostVisitedListItemCover extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  subTitle ?? '',
+                  snap.cityName,
                   style: const TextStyle(
                     color: Colors.white,
                   ),

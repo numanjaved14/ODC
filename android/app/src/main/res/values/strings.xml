@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ODC Zone</string>
+    <string name="facebook_app_id">346356510769579</string>
+    <string name="fb_login_protocol_scheme">fb346356510769579</string>
+    <string name="facebook_client_token">25a01810843a84e773edccf15985709e</string>
+</resources>
+

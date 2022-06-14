@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:real_estate/components/rounded_button.dart';
+import 'package:real_estate/services/lang_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/app_utils.dart';
@@ -33,11 +34,27 @@ class _FormPageState extends State<FormPage> {
   TextEditingController _price = TextEditingController();
   String? _currency;
   String? imgPath;
+  bool _isFrench = false;
 
   @override
   void initState() {
     getId();
+    getLnguage();
     super.initState();
+  }
+
+  void getLnguage() async {
+    String language = await LangPref.getLang();
+    print("Output of Pref " + language);
+    if (language == 'fr') {
+      setState(() {
+        _isFrench = true;
+      });
+    } else {
+      setState(() {
+        _isFrench = false;
+      });
+    }
   }
 
   List types = [
@@ -93,9 +110,9 @@ class _FormPageState extends State<FormPage> {
                           height: 20,
                         ),
                         Row(
-                          children: const [
+                          children: [
                             Text(
-                              'Title',
+                              _isFrench ? 'Titre' : 'Title',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(
@@ -116,9 +133,9 @@ class _FormPageState extends State<FormPage> {
                         ),
                         TextFormField(
                           controller: _name,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(10, 2, 0, 2),
-                            hintText: 'Title',
+                            hintText: _isFrench ? 'Titre' : 'Title',
                             border: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
                             ),
@@ -128,9 +145,9 @@ class _FormPageState extends State<FormPage> {
                           height: 15,
                         ),
                         Row(
-                          children: const [
+                          children: [
                             Text(
-                              'Type',
+                              _isFrench ? 'Taper' : 'Type',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(
@@ -190,8 +207,8 @@ class _FormPageState extends State<FormPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
-                          'Description',
+                        Text(
+                          _isFrench ? 'La description' : 'Description',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
@@ -204,8 +221,10 @@ class _FormPageState extends State<FormPage> {
                             minLines: 2,
                             maxLines: 5,
                             keyboardType: TextInputType.multiline,
-                            decoration: const InputDecoration(
-                              hintText: 'short description',
+                            decoration: InputDecoration(
+                              hintText: _isFrench
+                                  ? 'brève description'
+                                  : 'short description',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
                               ),
@@ -215,8 +234,8 @@ class _FormPageState extends State<FormPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
-                          'File',
+                        Text(
+                          _isFrench ? 'Dossier' : 'File',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
@@ -245,7 +264,7 @@ class _FormPageState extends State<FormPage> {
                           ),
                         ),
                         const SizedBox(height: 15),
-                        const Text('City',
+                        Text(_isFrench ? 'Ville' : 'City',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 5),
                         Container(
@@ -290,9 +309,11 @@ class _FormPageState extends State<FormPage> {
                           height: 15,
                         ),
                         Row(
-                          children: const [
+                          children: [
                             Text(
-                              'Property Location',
+                              _isFrench
+                                  ? 'Emplacement de la propriété'
+                                  : 'Property Location',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(
@@ -313,9 +334,11 @@ class _FormPageState extends State<FormPage> {
                         ),
                         TextFormField(
                           controller: _location,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(10, 2, 0, 2),
-                            hintText: 'Property Location',
+                            hintText: _isFrench
+                                ? 'Emplacement de la propriété'
+                                : 'Property Location',
                             border: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey)),
                           ),
@@ -323,8 +346,8 @@ class _FormPageState extends State<FormPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
-                          'Latitude',
+                        Text(
+                          _isFrench ? '' : 'Latitude',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
@@ -343,8 +366,8 @@ class _FormPageState extends State<FormPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
-                          'Longitude',
+                        Text(
+                          _isFrench ? '' : 'Longitude',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
@@ -363,8 +386,10 @@ class _FormPageState extends State<FormPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
-                          'Number of BedRooms',
+                        Text(
+                          _isFrench
+                              ? 'Nombre de chambres'
+                              : 'Number of BedRooms',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
@@ -412,8 +437,10 @@ class _FormPageState extends State<FormPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
-                          'Number of BathRooms',
+                        Text(
+                          _isFrench
+                              ? 'Nombre de salles de bain'
+                              : 'Number of BathRooms',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
@@ -461,8 +488,8 @@ class _FormPageState extends State<FormPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
-                          'Number of Floors',
+                        Text(
+                          _isFrench ? 'Nombre d\'étages' : 'Number of Floors',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
@@ -510,8 +537,8 @@ class _FormPageState extends State<FormPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
-                          'Price',
+                        Text(
+                          _isFrench ? 'Prix' : 'Price',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
@@ -520,9 +547,9 @@ class _FormPageState extends State<FormPage> {
                         TextFormField(
                           controller: _price,
                           keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(10, 2, 0, 2),
-                            hintText: 'Price',
+                            hintText: _isFrench ? '' : 'Price',
                             border: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey)),
                           ),
@@ -530,8 +557,8 @@ class _FormPageState extends State<FormPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
-                          'Currency',
+                        Text(
+                          _isFrench ? 'Devise' : 'Currency',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
@@ -578,9 +605,9 @@ class _FormPageState extends State<FormPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Center(
+                        Center(
                           child: Text(
-                            'Language',
+                            _isFrench ? 'Langue' : 'Language',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -627,7 +654,7 @@ class _FormPageState extends State<FormPage> {
                         ),
                         Center(
                           child: RoundedButton(
-                            text: "SUBMIT",
+                            text: _isFrench ? 'NOUS FAIRE PARVENIR' : "SUBMIT",
                             onPressed: () async {
                               if (imgPath == null) {
                                 ScaffoldMessenger.of(context)

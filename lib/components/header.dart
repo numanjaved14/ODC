@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:real_estate/services/lang_pref.dart';
 
 import '/pages/calendar/calendar_popup_view.dart';
 import '/utils/constants.dart';
@@ -15,8 +16,30 @@ class Header extends StatefulWidget {
 
 class _HeaderState extends State<Header> {
   DateTime startDate = DateTime.now();
+  bool _isFrench = false;
 
   DateTime endDate = DateTime.now().add(const Duration(days: 4));
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLnguage();
+  }
+
+  void getLnguage() async {
+    String language = await LangPref.getLang();
+    print("Output of Pref " + language);
+    if (language == 'fr') {
+      setState(() {
+        _isFrench = true;
+      });
+    } else {
+      setState(() {
+        _isFrench = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +70,8 @@ class _HeaderState extends State<Header> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text(
-                            'Choose date',
+                          Text(
+                            _isFrench ? 'Choisissez la date' : 'Choose date',
                             style: kSubTitleStyle,
                           ),
                           const SizedBox(
@@ -95,9 +118,10 @@ class _HeaderState extends State<Header> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text(
-                            'Number of Rooms',
+                          Text(
+                            _isFrench ? 'Nombre de chambre' : 'Number of Rooms',
                             style: kSubTitleStyle,
+                            overflow: TextOverflow.fade,
                           ),
                           const SizedBox(
                             height: 8,

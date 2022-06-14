@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate/services/lang_pref.dart';
 
 import '../drawer/home_navigation.dart';
 
@@ -8,6 +9,28 @@ class QrCode extends StatefulWidget {
 }
 
 class _QrCodeState extends State<QrCode> {
+  bool _isFrench = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLnguage();
+  }
+
+  void getLnguage() async {
+    String language = await LangPref.getLang();
+    print("Output of Pref " + language);
+    if (language == 'fr') {
+      setState(() {
+        _isFrench = true;
+      });
+    } else {
+      setState(() {
+        _isFrench = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +47,8 @@ class _QrCodeState extends State<QrCode> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Scan QR code',
+              Text(
+                _isFrench ? 'Scannez le code QR' : 'Scan QR code',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 28,

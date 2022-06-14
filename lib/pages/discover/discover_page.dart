@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:real_estate/services/lang_pref.dart';
 
 import '/models/estate_list_data.dart';
 import '/pages/discover/widgets/estate_list_view.dart';
@@ -21,17 +22,33 @@ class _DiscoverPageState extends State<DiscoverPage>
   AnimationController? animationController;
   List<EstateListData> estateList = EstateListData.estateList;
   final ScrollController _scrollController = ScrollController();
+  bool _isFrench = false;
 
   @override
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     super.initState();
+    getLnguage();
   }
 
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
+  }
+
+  void getLnguage() async {
+    String language = await LangPref.getLang();
+    print("Output of Pref " + language);
+    if (language == 'fr') {
+      setState(() {
+        _isFrench = true;
+      });
+    } else {
+      setState(() {
+        _isFrench = false;
+      });
+    }
   }
 
   @override
@@ -44,9 +61,9 @@ class _DiscoverPageState extends State<DiscoverPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
+        title: Center(
           child: Text(
-            'Discover',
+            _isFrench ? 'Découvrir' : 'Discover',
           ),
         ),
         automaticallyImplyLeading: false,
@@ -88,9 +105,12 @@ class _DiscoverPageState extends State<DiscoverPage>
                           delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                             return Column(
-                              children: const <Widget>[
-                                SearchBar(),
-                                Header(),
+                              children: <Widget>[
+                                SearchBar(
+                                    text: _isFrench
+                                        ? 'chercher...'
+                                        : 'Search...'),
+                                const Header(),
                               ],
                             );
                           }, childCount: 1),

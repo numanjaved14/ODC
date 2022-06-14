@@ -4,11 +4,13 @@ import 'package:real_estate/pages/drawer/home_navigation.dart';
 import 'package:real_estate/pages/home/home_page.dart';
 import 'package:real_estate/pages/splash/splash_page.dart';
 import 'package:real_estate/pages/welcome/welcome_page.dart';
+import 'package:real_estate/services/lang_pref.dart';
 import 'package:real_estate/utils/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await LangPref.init();
   runApp(const MyApp());
 }
 
